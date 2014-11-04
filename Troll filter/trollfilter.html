@@ -10,124 +10,135 @@
 </head>
 <body>
     <img src="jb.jpg">
-    <div id="system">
+    <div id="commentSystem">
         <h1>
             COMMENTS
         </h1>
-        <div id="kommentarfelt">
-            <textarea onfocus="clearContents(this);" id="txt">Enter your opinion here!</textarea>
-            <button id="knap">Submit</button>
-            <p id="lol">Counter: 0</p>
+        <div id="commentField">
+            <textarea onfocus="clearContents(this);" id="textArea">Enter your opinion here!</textarea>
+            <button id="button">Submit</button>
+            <p id="counter">Counter: 0</p>
         </div>
         
         <script>
-            function clearContents(element) 
-            {
-                element.value = '';
-            }
-            var x;
+            //** VARIABlES **////** VARIABlES **////** VARIABlES **////** VARIABlES **//
+            //** VARIABlES **////** VARIABlES **////** VARIABlES **////** VARIABlES **//
+            
+            var savedText;
             var lookFor = ["fuck" , "fucking" , "fucker"];
             var replaceWith = ["elsk" , "loving" , "lover"];
-            var lol = 0;
-            document.getElementById("txt").addEventListener("keydown", function(event)
+            var counter;
+            var rgbaMultiplier;
+            var textArray;
+            var newText;
+            var id;
+            var hour;
+            var minute;
+            var second;
+            var idDate;
+            var n;
+            var N;
+            
+            //** FUNCTIONS **////** FUNCTIONS **////** FUNCTIONS **////** FUNCTIONS **//
+            //** FUNCTIONS **////** FUNCTIONS **////** FUNCTIONS **////** FUNCTIONS **//
+            
+            function clearContents(element) 
+            {
+                element.value = "";
+            }
+            
+            function idAndDate(idDate)
+            {
+                id = Math.floor(Math.random() * 10000);
+                hour = new Date();
+                hour = hour.getHours();
+                minute = new Date();
+                minute = minute.getMinutes();
+                second = new Date();
+                second = second.getSeconds();
+                idDate = "<span>User ID: " + id + " - time: " + hour + ":" + minute + ":" + second + "</span><br>";
+                return idDate;
+            }
+            
+            function findAndReplace(newText)
+            { 
+                textArray = document.getElementById("textArea").value.split(" ");
+                for (n=0; n<document.getElementById("textArea").value.length; n++)
+                {
+                    for (N=0; N<lookFor.length; N++)
+                    {
+                        if( textArray[n] == lookFor[N])
+                        {
+                            textArray[n] = replaceWith[N];
+                        }
+                    }
+                }
+                newText = textArray.join(" ");
+                return newText;
+            }
+            
+            //** EVENTLISTENERS **////** EVENTLISTENERS **////** EVENTLISTENERS **////** EVENTLISTENERS **//
+            //** EVENTLISTENERS **////** EVENTLISTENERS **////** EVENTLISTENERS **////** EVENTLISTENERS **//
+            
+            document.getElementById("textArea").addEventListener("keydown", function(event)
             {
                 if(event.keyCode == 32)
                 {
-                    var text = document.getElementById("txt").value;
-                    var textArray = text.split(" ");
-                    for (var n=0; n<text.length; n++)
+                    textArray = document.getElementById("textArea").value.split(" ");
+                    for (n=0; n<document.getElementById("textArea").value.length; n++)
                     {
-                        for (var N=0; N<lookFor.length; N++)
+                        for (N=0; N<lookFor.length; N++)
                         {
                             if( textArray[n] == lookFor[N])
                             {
-                                lol++;
-                                document.getElementById("lol").innerHTML = "Counter: " + lol;
-                                var lool = lol * 0.1;
-                                document.getElementById("txt").style.backgroundColor = "rgba(0, 255, 0, " + lool +")";
+                                counter++;
+                                document.getElementById("counter").innerHTML = "Counter: " + counter;
+                                rgbaMultiplier = counter * 0.1;
+                                document.getElementById("textArea").style.backgroundColor = "rgba(0, 255, 0, " + rgbaMultiplier +")";
                             }
                         }
                     }  
                 }
-                lol = 0;
+                counter = 0;
             });
                                                                 
-            
-            document.getElementById("knap").addEventListener("click", function()
+            document.getElementById("button").addEventListener("click", function()
             {   
-                lol = 0;
-                document.getElementById("lol").innerHTML = "Counter: " + lol;
-                document.getElementById("txt").style.backgroundColor = "rgba(0, 255, 0, 0)";
-                if(document.getElementById("txt").value.length == 0)
+                counter = 0;
+                document.getElementById("counter").innerHTML = "Counter: " + counter;
+                document.getElementById("textArea").style.backgroundColor = "rgba(0, 255, 0, 0)";
+                if(document.getElementById("textArea").value.length == 0)
                 {
                     alert("You need to wright something first!");   
                 }
                 
-                else if(document.getElementById("txt").value == "Enter your opinion here!")
+                else if(document.getElementById("textArea").value == "Enter your opinion here!")
                 {
                     alert("You need to wright something first!");   
                 }
                 
                 else
                 {
-                    
-                    var y = Math.random() * 10000;
-                    y = Math.floor(y);
-                    
-                    var d = new Date();
-                    d = d.getHours();
-                    var e = new Date();
-                    e = e.getMinutes();
-                    var f = new Date();
-                    f = f.getSeconds();
-                    if(x == undefined)
+                    if(savedText == undefined)
                     {
-                        var text = document.getElementById("txt").value;
-                        var textArray = text.split(" ");
-                        for (var n=0; n<text.length; n++)
-                        {
-                            for (var N=0; N<lookFor.length; N++)
-                            {
-                                if( textArray[n] == lookFor[N])
-                                {
-                                    /**var replaceArray = Math.floor(Math.random() * replaceWith.length);**/
-                                    textArray[n] = replaceWith[N];
-                                }
-                            }
-                        }
-                        var newText = textArray.join(" ");
-                        x = "<span>User ID: " + y + " - time: " + d + ":" + e + ":" + f + "</span><br>" + "<p>" + newText + "</p>";
-                        document.getElementById("comment").innerHTML = x;
-                        document.getElementById("txt").value = null;
+                        
+                        savedText = idAndDate() + "<p>" + findAndReplace() + "</p>";
+                        document.getElementById("comment").innerHTML = savedText;
+                        document.getElementById("textArea").value = null;
                     }
 
                     else
                     {
-                        var text = document.getElementById("txt").value;
-                        var textArray = text.split(" ");
-                        for (var n=0; n<text.length; n++)
-                        {
-                            for (var N=0; N<lookFor.length; N++)
-                            {
-                                if( textArray[n] == lookFor[N])
-                                {
-                                    /**var replaceArray = Math.floor(Math.random() * replaceWith.length);**/
-                                    textArray[n] = replaceWith[N];
-                                }
-                            }
-                        }
-                        var newText = textArray.join(" ");
-                        x = "<span>User ID: " + y + " - time: " + d + ":" + e + ":" + f + "</span><br>" +  "<p>" + newText + "</p>" + x;
-                        document.getElementById("comment").innerHTML = x;
-                        document.getElementById("txt").value = null;
+                        savedText = idAndDate() +  "<p>" + findAndReplace() + "</p>" + savedText;
+                        document.getElementById("comment").innerHTML = savedText;
+                        document.getElementById("textArea").value = null;
                     }  
                 } 
             });
         </script>
-        <div id="comment">
-           
-        </div>
-        <div id="fake">  
+        
+        <div id="comment"></div>
+        <div id="fakeComments">  
             <span>
                 User ID: 2341 - time: 02:24:4
             </span>
@@ -135,7 +146,6 @@
             <p>
                 The more Justin Biebers life disintegrates into a drug and alcohol fuelled orgy of mayhem the more compelling I find him. Everyday I just can't seem to wait to find out what his crazy antics are next.Hes everything I could want in a multimillionaire child star gone wrong.
             </p>
-            
             <span>
                 User ID: 8027 - time: 02:53:28
             </span>
@@ -143,7 +153,6 @@
             <p>
                 He'll be dead before 30.
             </p>
-            
             <span>
                 User ID: 1458 - time: 03:21:58
             </span>
@@ -151,7 +160,6 @@
             <p>
                 I sincerely hope not. That would ruin it for everyone. He's capable of so much! He's been arrested more times than I care to remember for small petty crimes like speeding, having a bit of pot on him now ramming a minivan with an ATV. He's only 20 years old! He's just starting out. Just think what the guy is capable of by the time he's 40. I had high hopes for Macaulay Culkin back in the day but he faded away. Justin Bieber is made of stronger stuff, he is greatness in the making. Just wait and see
             </p>
-            
             <span>
                 User ID: 2984 - time: 03:55:42
             </span>
@@ -160,4 +168,5 @@
                 Leave the poor boy alone, he's had an awfully privileged life… Lifes tough in the gateaux.
             </p>
         </div>
+    </div>
 </body>
