@@ -5,6 +5,15 @@ body
     font-family: 'Roboto Slab', serif;
 }
 
+#lol
+{
+    display: inline;
+    float: right;
+    margin-top: 0px;
+    border-bottom: 0;  
+    padding-bottom: 0vh;
+}
+
 img
 {
     width: 100%;  
@@ -21,6 +30,12 @@ textarea
     outline: none;
     resize: none;
     font-family: 'Roboto Slab', serif;
+    background-color: rgba(0, 255, 0, 0);
+}
+
+#kommentarfelt
+{
+    padding-bottom: 10px;
 }
 
 #knap

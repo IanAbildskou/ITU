@@ -14,8 +14,12 @@
         <h1>
             COMMENTS
         </h1>
-        <textarea onfocus="clearContents(this);" id="txt">Enter your opinion here!</textarea>
-        <button id="knap">Submit</button>
+        <div id="kommentarfelt">
+            <textarea onfocus="clearContents(this);" id="txt">Enter your opinion here!</textarea>
+            <button id="knap">Submit</button>
+            <p id="lol">Counter: 0</p>
+        </div>
+        
         <script>
             function clearContents(element) 
             {
@@ -24,14 +28,42 @@
             var x;
             var lookFor = ["fuck" , "fucking" , "fucker"];
             var replaceWith = ["elsk" , "loving" , "lover"];
+            var lol = 0;
+            document.getElementById("txt").addEventListener("keydown", function(event)
+            {
+                if(event.keyCode == 32)
+                {
+                    var text = document.getElementById("txt").value;
+                    var textArray = text.split(" ");
+                    for (var n=0; n<text.length; n++)
+                    {
+                        for (var N=0; N<lookFor.length; N++)
+                        {
+                            if( textArray[n] == lookFor[N])
+                            {
+                                lol++;
+                                document.getElementById("lol").innerHTML = "Counter: " + lol;
+                                var lool = lol * 0.1;
+                                document.getElementById("txt").style.backgroundColor = "rgba(0, 255, 0, " + lool +")";
+                            }
+                        }
+                    }  
+                }
+                lol = 0;
+            });
+                                                                
+            
             document.getElementById("knap").addEventListener("click", function()
             {   
+                lol = 0;
+                document.getElementById("lol").innerHTML = "Counter: " + lol;
+                document.getElementById("txt").style.backgroundColor = "rgba(0, 255, 0, 0)";
                 if(document.getElementById("txt").value.length == 0)
                 {
                     alert("You need to wright something first!");   
                 }
                 
-                if(document.getElementById("txt").value == "Enter your opinion here!")
+                else if(document.getElementById("txt").value == "Enter your opinion here!")
                 {
                     alert("You need to wright something first!");   
                 }
